@@ -9,7 +9,6 @@ Interacting with the Pebble's timeline in Go
 package main
 
 import (
-    "encoding/json"
     "fmt"
     "github.com/janekolszak/go-pebble"
 )
@@ -25,7 +24,6 @@ func main() {
         Reminders:          pebble.Reminders{reminder},
         Actions:            pebble.Actions{action}
     }
-    pinJSON, _ := json.Marshal(pin)
-    fmt.Println(pinJSON)
+    fmt.Println(pin.String())
 }
 ```

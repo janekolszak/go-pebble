@@ -1,5 +1,9 @@
 package pebble
 
+import (
+    "encoding/json"
+)
+
 type Layout struct {
     Type            string   `json:"type"`
     Title           string   `json:"title"`
@@ -46,4 +50,9 @@ type Pin struct {
 
 type Error struct {
     ErrorCode string `json:"errorCode"`
+}
+
+func (pin *Pin) String() string {
+    buf, _ := json.Marshal(pin)
+    return string(buf)
 }
