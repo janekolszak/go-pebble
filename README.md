@@ -9,6 +9,7 @@ Interacting with the Pebble's timeline in Go
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "github.com/janekolszak/go-pebble"
 )
@@ -16,7 +17,7 @@ import (
 func main() {
     pin := pebble.Pin{
         Id:                 id,
-        Time:               startTime,
+        Time:               time,
         Layout:             layout,
         Duration:           duration,
         CreateNotification: creationNotification,
