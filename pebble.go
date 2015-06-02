@@ -66,7 +66,12 @@ func (pin *Pin) Put(client *http.Client, token string) error {
 
     req, err := http.NewRequest("PUT", address, strings.NewReader(pin.String()))
     req.Header.Add("Content-Type", "application/json")
-    req.Header.Add("X-User-Token", token)
+
+    if token != "" {
+        // Use token, if it's available
+        req.Header.Add("X-User-Token", token)
+    }
+
     resp, err := client.Do(req)
     defer resp.Body.Close()
 
