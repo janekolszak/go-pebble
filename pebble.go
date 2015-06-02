@@ -2,6 +2,10 @@ package pebble
 
 import (
     "encoding/json"
+    "errors"
+    "io/ioutil"
+    "net/http"
+    "strings"
 )
 
 type Layout struct {
@@ -55,4 +59,38 @@ type Error struct {
 func (pin *Pin) String() string {
     buf, _ := json.Marshal(pin)
     return string(buf)
+}
+
+func (pin *Pin) Put(client *http.Client, token string) error {
+    address := "https://timeline-api.getpebble.com/v1/user/pins/" + pin.Id
+
+    req, err := http.NewRequest("PUT", address, strings.NewReader(pin.String()))
+    req.Header.Add("Content-Type", "application/json")
+    req.Header.Add("X-User-Token", token)
+    resp, err := client.Do(req)
+    defer resp.Body.Close()
+
+    if err != nil {
+        return err
+    }
+
+    // Check the response:
+    if resp.StatusCode != 200 {
+        body, err := ioutil.ReadAll(resp.Body)
+        if err != nil {
+            return err
+        }
+
+        // What's the error sent from Pebble:
+        var e Error
+        err = json.NewDecoder(strings.NewReader(string(body))).Decode(&e)
+        if err != nil {
+            return err
+        }
+
+        err = errors.New("Error from Pebble Server: " + e.ErrorCode)
+        return err
+    }
+
+    return nil
 }
