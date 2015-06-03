@@ -8,6 +8,11 @@ import (
     "strings"
 )
 
+const (
+    userPinURL   = "https://timeline-api.getpebble.com/v1/user/pins/"
+    sharedPinURL = "https://timeline-api.getpebble.com/v1/shared/pins/"
+)
+
 type Layout struct {
     Type            string   `json:"type"`
     Title           string   `json:"title"`
@@ -56,22 +61,23 @@ type Error struct {
     ErrorCode string `json:"errorCode"`
 }
 
+type UserPin struct {
+    Pin
+    Token string
+}
+
+type SharedPin struct {
+    Pin
+    apiKey string
+    topics string
+}
+
 func (pin *Pin) String() string {
     buf, _ := json.Marshal(pin)
     return string(buf)
 }
 
-func (pin *Pin) Put(client *http.Client, token string) error {
-    address := "https://timeline-api.getpebble.com/v1/user/pins/" + pin.Id
-
-    req, err := http.NewRequest("PUT", address, strings.NewReader(pin.String()))
-    req.Header.Add("Content-Type", "application/json")
-
-    if token != "" {
-        // Use token, if it's available
-        req.Header.Add("X-User-Token", token)
-    }
-
+func (pin *Pin) doRequest(client *http.Client, req *http.Request) error {
     resp, err := client.Do(req)
     defer resp.Body.Close()
 
@@ -98,4 +104,24 @@ func (pin *Pin) Put(client *http.Client, token string) error {
     }
 
     return nil
+}
+
+func (uPin *UserPin) address() string {
+    return userPinURL + uPin.Id
+}
+
+func (sPin *SharedPin) address() string {
+    return sharedPinURL + sPin.Id
+}
+
+func (uPin *UserPin) Put(client *http.Client) error {
+
+    req, err := http.NewRequest("PUT", uPin.address(), strings.NewReader(uPin.String()))
+    if err != nil {
+        return err
+    }
+    req.Header.Add("Content-Type", "application/json")
+    req.Header.Add("X-User-Token", uPin.Token)
+
+    return uPin.doRequest(client, req)
 }
