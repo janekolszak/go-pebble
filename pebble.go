@@ -138,3 +138,29 @@ func (uPin *UserPin) Delete(client *http.Client) error {
 
     return uPin.doRequest(client, req)
 }
+
+func (sPin *SharedPin) Put(client *http.Client) error {
+
+    req, err := http.NewRequest("PUT", sPin.address(), strings.NewReader(sPin.String()))
+    if err != nil {
+        return err
+    }
+    req.Header.Add("Content-Type", "application/json")
+    req.Header.Add("X-API-Key", sPin.APIKey)
+    req.Header.Add("X-Pin-Topics", sPin.Topics)
+
+    return sPin.doRequest(client, req)
+}
+
+func (sPin *SharedPin) Delete(client *http.Client) error {
+
+    // TODO: Is body required here?
+    req, err := http.NewRequest("DELETE", sPin.address(), strings.NewReader("sPin.String()"))
+    if err != nil {
+        return err
+    }
+    req.Header.Add("Content-Type", "application/json")
+    req.Header.Add("X-API-Key", sPin.APIKey)
+
+    return sPin.doRequest(client, req)
+}
