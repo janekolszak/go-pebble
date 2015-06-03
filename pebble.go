@@ -68,8 +68,8 @@ type UserPin struct {
 
 type SharedPin struct {
     Pin
-    apiKey string
-    topics string
+    APIKey string
+    Topics string
 }
 
 func (pin *Pin) String() string {
@@ -117,6 +117,19 @@ func (sPin *SharedPin) address() string {
 func (uPin *UserPin) Put(client *http.Client) error {
 
     req, err := http.NewRequest("PUT", uPin.address(), strings.NewReader(uPin.String()))
+    if err != nil {
+        return err
+    }
+    req.Header.Add("Content-Type", "application/json")
+    req.Header.Add("X-User-Token", uPin.Token)
+
+    return uPin.doRequest(client, req)
+}
+
+func (uPin *UserPin) Delete(client *http.Client) error {
+
+    // TODO: Is body required here?
+    req, err := http.NewRequest("DELETE", uPin.address(), strings.NewReader(uPin.String()))
     if err != nil {
         return err
     }
