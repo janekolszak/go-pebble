@@ -11,19 +11,72 @@ package main
 import (
     "fmt"
     "github.com/janekolszak/go-pebble"
+    "net/http"
 )
 
 func main() {
+    layout := pebble.Layout{
+        Type:     "genericPin",
+        Title:    "Title",
+        TinyIcon: "system://images/NOTIFICATION_FLAG",
+        Body:     "Body",
+    }
+
+    creationLayout := pebble.Layout{
+        Type:     "genericPin",
+        Title:    "Creation Title",
+        TinyIcon: "system://images/NOTIFICATION_FLAG",
+        Body:     "Creation Body",
+    }
+
+    creationNotification := pebble.Notification{
+        Layout: creationLayout,
+    }
+
+    updateLayout := pebble.Layout{
+        Type:     "genericPin",
+        Title:    "Update Title",
+        TinyIcon: "system://images/NOTIFICATION_FLAG",
+        Body:     "Update Body",
+    }
+
+    updateNotification := pebble.Notification{
+        Layout: updateLayout,
+        Time:   time.Now().Format(time.RFC3339),
+    }
+
+    reminderLayout := pebble.Layout{
+        Type:     "genericReminder",
+        Title:    "Reminder Title",
+        TinyIcon: "system://images/NOTIFICATION_FLAG",
+    }
+
+    reminder := pebble.Reminder{
+        Time:   time.Now().Format(time.RFC3339),
+        Layout: reminderLayout,
+    }
+
     pin := pebble.Pin{
-        Id:                 id,
-        Time:               time,
+        Id:                 "UNIQUE ID",
+        Time:               time.Now().Format(time.RFC3339),
         Layout:             layout,
-        Duration:           duration,
         CreateNotification: creationNotification,
         UpdateNotification: updateNotification,
         Reminders:          pebble.Reminders{reminder},
-        Actions:            pebble.Actions{action}
     }
+
+    uPin.userPin = pebble.UserPin{
+        Pin:   pin,
+        Token: "TOKEN",
+    }
+
     fmt.Println(pin.String())
+
+
+    client := &http.Client{
+        CheckRedirect: redirectPolicyFunc,
+    }
+    uPin.Put(client)
+    uPin.Delete(client)
 }
 ```
