@@ -128,8 +128,7 @@ func (uPin *UserPin) Put(client *http.Client) error {
 
 func (uPin *UserPin) Delete(client *http.Client) error {
 
-    // TODO: Is body required here?
-    req, err := http.NewRequest("DELETE", uPin.address(), strings.NewReader(uPin.String()))
+    req, err := http.NewRequest("DELETE", uPin.address(), nil)
     if err != nil {
         return err
     }
@@ -154,8 +153,7 @@ func (sPin *SharedPin) Put(client *http.Client) error {
 
 func (sPin *SharedPin) Delete(client *http.Client) error {
 
-    // TODO: Is body required here?
-    req, err := http.NewRequest("DELETE", sPin.address(), strings.NewReader("sPin.String()"))
+    req, err := http.NewRequest("DELETE", sPin.address(), nil)
     if err != nil {
         return err
     }
