@@ -79,11 +79,10 @@ func (pin *Pin) String() string {
 
 func (pin *Pin) doRequest(client *http.Client, req *http.Request) error {
     resp, err := client.Do(req)
-    defer resp.Body.Close()
-
     if err != nil {
         return err
     }
+    defer resp.Body.Close()
 
     // Check the response:
     if resp.StatusCode != 200 {
