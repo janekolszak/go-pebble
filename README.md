@@ -1,8 +1,11 @@
 # go-pebble
-Interacting with the Pebble's timeline in Go
+Interacting with the Pebble's timeline in Go.
 
 ### Setup
-<pre>go get github.com/janekolszak/go-pebble</pre>
+<pre>go get -u github.com/janekolszak/go-pebble</pre>
+
+### Test
+<pre>go test github.com/janekolszak/go-pebble</pre>
 
 ### Example
 ```go
@@ -30,7 +33,7 @@ func main() {
     }
 
     creationNotification := pebble.Notification{
-        Layout: creationLayout,
+        Layout: &creationLayout,
     }
 
     updateLayout := pebble.Layout{
@@ -41,7 +44,7 @@ func main() {
     }
 
     updateNotification := pebble.Notification{
-        Layout: updateLayout,
+        Layout: &updateLayout,
         Time:   time.Now().Format(time.RFC3339),
     }
 
@@ -53,16 +56,16 @@ func main() {
 
     reminder := pebble.Reminder{
         Time:   time.Now().Format(time.RFC3339),
-        Layout: reminderLayout,
+        Layout: &reminderLayout,
     }
 
     pin := pebble.Pin{
         Id:                 "UNIQUE ID",
         Time:               time.Now().Format(time.RFC3339),
-        Layout:             layout,
-        CreateNotification: creationNotification,
-        UpdateNotification: updateNotification,
-        Reminders:          pebble.Reminders{reminder},
+        Layout:             &layout,
+        CreateNotification: &creationNotification,
+        UpdateNotification: &updateNotification,
+        Reminders:          &pebble.Reminders{reminder},
     }
 
     uPin.userPin = pebble.UserPin{
