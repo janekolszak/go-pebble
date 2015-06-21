@@ -27,13 +27,13 @@ type Layout struct {
 }
 
 type Notification struct {
-    Layout Layout `json:"layout,omitempty"`
-    Time   string `json:"time,omitempty"`
+    Layout *Layout `json:"layout,omitempty"`
+    Time   string  `json:"time,omitempty"`
 }
 
 type Reminder struct {
-    Time   string `json:"time"`
-    Layout Layout `json:"layout"`
+    Time   string  `json:"time"`
+    Layout *Layout `json:"layout"`
 }
 
 type Reminders []Reminder
@@ -47,14 +47,14 @@ type Action struct {
 type Actions []Action
 
 type Pin struct {
-    Id                 string       `json:"id"`
-    Time               string       `json:"time"`
-    Layout             Layout       `json:"layout"`
-    Duration           int          `json:"duration,omitempty"`
-    CreateNotification Notification `json:"createNotification,omitempty"`
-    UpdateNotification Notification `json:"updateNotification,omitempty"`
-    Reminders          Reminders    `json:"reminders,omitempty"`
-    Actions            []Action     `json:"actions,omitempty"`
+    Id                 string        `json:"id"`
+    Time               string        `json:"time"`
+    Layout             *Layout       `json:"layout"`
+    Duration           int           `json:"duration,omitempty"`
+    CreateNotification *Notification `json:"createNotification,omitempty"`
+    UpdateNotification *Notification `json:"updateNotification,omitempty"`
+    Reminders          *Reminders    `json:"reminders,omitempty"`
+    Actions            *Actions      `json:"actions,omitempty"`
 }
 
 type Error struct {
