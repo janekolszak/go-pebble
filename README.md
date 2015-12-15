@@ -1,4 +1,4 @@
-# go-pebble
+# go-pebble [![Build Status](https://travis-ci.org/janekolszak/go-pebble.svg)](https://travis-ci.org/janekolszak/go-pebble)
 Interacting with the Pebble's timeline in Go.
 
 ### Setup
