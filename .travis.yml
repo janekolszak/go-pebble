@@ -1,0 +1,13 @@
+language: go
+go:
+  - 1.3
+  - 1.4
+  - 1.5
+
+install:
+  - export PATH=$PATH:$HOME/gopath/bin
+  - go get github.com/stretchr/testify/assert
+  - go get -v github.com/revel/cmd/revel
+
+script:
+  - go test github.com/janekolszak/go-pebble
